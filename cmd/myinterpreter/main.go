@@ -103,6 +103,30 @@ func main() {
 					fmt.Println("BANG ! null")
 				}
 			}
+		case GREATER:
+			if isEnd {
+				fmt.Println("GREATER > null")
+			} else {
+				if match(tokens[nextPointer]) {
+					fmt.Println("GREATER_EQUAL >= null")
+					nextPointer++
+					currentPointer++
+				} else {
+					fmt.Println("GREATER > null")
+				}
+			}
+		case LESS:
+			if isEnd {
+				fmt.Println("LESS < null")
+			} else {
+				if match(tokens[nextPointer]) {
+					fmt.Println("LESS_EQUAL <= null")
+					nextPointer++
+					currentPointer++
+				} else {
+					fmt.Println("LESS < null")
+				}
+			}
 		default:
 			fmt.Fprintf(os.Stderr, "[line 1] Error: Unexpected character: %s\n", string(token))
 			errorsPresent = true
