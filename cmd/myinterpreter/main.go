@@ -16,6 +16,10 @@ const (
 	PLUS        rune = '+'
 	SEMICOLON   rune = ';'
 	STAR        rune = '*'
+	EQUAL       rune = '='
+	GREATER     rune = '>'
+	LESS        rune = '<'
+	BANG        rune = '!'
 )
 
 func main() {
@@ -43,12 +47,56 @@ func main() {
 
 	errorsPresent := false
 
-	for _, token := range string(fileContents) {
-		if !errorsPresent {
-			errorsPresent = scanToken(token)
-		} else {
-			scanToken(token)
+	tokens := []rune(string(fileContents))
+
+	currentPointer := 0
+	nextPointer := 1
+
+	for range len(tokens) {
+		isEnd := nextPointer >= len(tokens)
+		if nextPointer > len(tokens) {
+			break
 		}
+		token := tokens[currentPointer]
+		switch token {
+		case LEFT_PAREN:
+			fmt.Println("LEFT_PAREN ( null")
+		case RIGHT_PAREN:
+			fmt.Println("RIGHT_PAREN ) null")
+		case LEFT_BRACE:
+			fmt.Println("LEFT_BRACE { null")
+		case RIGHT_BRACE:
+			fmt.Println("RIGHT_BRACE } null")
+		case COMMA:
+			fmt.Println("COMMA , null")
+		case DOT:
+			fmt.Println("DOT . null")
+		case MINUS:
+			fmt.Println("MINUS - null")
+		case PLUS:
+			fmt.Println("PLUS + null")
+		case SEMICOLON:
+			fmt.Println("SEMICOLON ; null")
+		case STAR:
+			fmt.Println("STAR * null")
+		case EQUAL:
+			if isEnd {
+				fmt.Println("EQUAL = null")
+			} else {
+				if match(tokens[nextPointer]) {
+					fmt.Println("EQUAL_EQUAL == null")
+					nextPointer++
+					currentPointer++
+				} else {
+					fmt.Println("EQUAL = null")
+				}
+			}
+		default:
+			fmt.Fprintf(os.Stderr, "[line 1] Error: Unexpected character: %s\n", string(token))
+			errorsPresent = true
+		}
+		nextPointer++
+		currentPointer++
 	}
 
 	fmt.Println("EOF  null")
@@ -57,40 +105,10 @@ func main() {
 	}
 }
 
-func scanToken(token rune) bool {
-	switch token {
-	case LEFT_PAREN:
-		fmt.Println("LEFT_PAREN ( null")
-		return false
-	case RIGHT_PAREN:
-		fmt.Println("RIGHT_PAREN ) null")
-		return false
-	case LEFT_BRACE:
-		fmt.Println("LEFT_BRACE { null")
-		return false
-	case RIGHT_BRACE:
-		fmt.Println("RIGHT_BRACE } null")
-		return false
-	case COMMA:
-		fmt.Println("COMMA , null")
-		return false
-	case DOT:
-		fmt.Println("DOT . null")
-		return false
-	case MINUS:
-		fmt.Println("MINUS - null")
-		return false
-	case PLUS:
-		fmt.Println("PLUS + null")
-		return false
-	case SEMICOLON:
-		fmt.Println("SEMICOLON ; null")
-		return false
-	case STAR:
-		fmt.Println("STAR * null")
-		return false
-	default:
-		fmt.Fprintf(os.Stderr, "[line 1] Error: Unexpected character: %s\n", string(token))
+func match(token rune) bool {
+	if token == EQUAL {
 		return true
+	} else {
+		return false
 	}
 }
