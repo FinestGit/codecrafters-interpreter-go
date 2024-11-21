@@ -5,6 +5,11 @@ import (
 	"os"
 )
 
+const (
+	LEFT_PAREN  rune = '('
+	RIGHT_PAREN rune = ')'
+)
+
 func main() {
 	// You can use print statements as follows for debugging, they'll be visible when running tests.
 	fmt.Fprintln(os.Stderr, "Logs from your program will appear here!")
@@ -28,19 +33,18 @@ func main() {
 		os.Exit(1)
 	}
 
-	for _, token := range fileContents {
+	for _, token := range string(fileContents) {
 		scanToken(token)
 	}
 
 	fmt.Println("EOF  null")
 }
 
-func scanToken(token byte) {
-	stringifiedToken := string(token)
-	switch stringifiedToken {
-	case "(":
-		fmt.Println("LEFT_PAREN", stringifiedToken, "null")
-	case ")":
-		fmt.Println("RIGHT_PAREN", stringifiedToken, "null")
+func scanToken(token rune) {
+	switch token {
+	case LEFT_PAREN:
+		fmt.Println("LEFT_PAREN ( null")
+	case RIGHT_PAREN:
+		fmt.Println("RIGHT_PAREN ) null")
 	}
 }
