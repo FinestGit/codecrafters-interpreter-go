@@ -41,34 +41,56 @@ func main() {
 		os.Exit(1)
 	}
 
+	errorsPresent := false
+
 	for _, token := range string(fileContents) {
-		scanToken(token)
+		if !errorsPresent {
+			errorsPresent = scanToken(token)
+		} else {
+			scanToken(token)
+		}
 	}
 
 	fmt.Println("EOF  null")
+	if errorsPresent {
+		os.Exit(65)
+	}
 }
 
-func scanToken(token rune) {
+func scanToken(token rune) bool {
 	switch token {
 	case LEFT_PAREN:
 		fmt.Println("LEFT_PAREN ( null")
+		return false
 	case RIGHT_PAREN:
 		fmt.Println("RIGHT_PAREN ) null")
+		return false
 	case LEFT_BRACE:
 		fmt.Println("LEFT_BRACE { null")
+		return false
 	case RIGHT_BRACE:
 		fmt.Println("RIGHT_BRACE } null")
+		return false
 	case COMMA:
 		fmt.Println("COMMA , null")
+		return false
 	case DOT:
 		fmt.Println("DOT . null")
+		return false
 	case MINUS:
 		fmt.Println("MINUS - null")
+		return false
 	case PLUS:
 		fmt.Println("PLUS + null")
+		return false
 	case SEMICOLON:
 		fmt.Println("SEMICOLON ; null")
+		return false
 	case STAR:
 		fmt.Println("STAR * null")
+		return false
+	default:
+		fmt.Fprintf(os.Stderr, "[line 1] Error: Unexpected character: %s\n", string(token))
+		return true
 	}
 }
