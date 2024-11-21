@@ -20,6 +20,7 @@ const (
 	GREATER     rune = '>'
 	LESS        rune = '<'
 	BANG        rune = '!'
+	SLASH       rune = '/'
 )
 
 func main() {
@@ -83,7 +84,7 @@ func main() {
 			if isEnd {
 				fmt.Println("EQUAL = null")
 			} else {
-				if match(tokens[nextPointer]) {
+				if match(tokens[nextPointer], EQUAL) {
 					fmt.Println("EQUAL_EQUAL == null")
 					nextPointer++
 					currentPointer++
@@ -95,7 +96,7 @@ func main() {
 			if isEnd {
 				fmt.Println("BANG ! null")
 			} else {
-				if match(tokens[nextPointer]) {
+				if match(tokens[nextPointer], EQUAL) {
 					fmt.Println("BANG_EQUAL != null")
 					nextPointer++
 					currentPointer++
@@ -107,7 +108,7 @@ func main() {
 			if isEnd {
 				fmt.Println("GREATER > null")
 			} else {
-				if match(tokens[nextPointer]) {
+				if match(tokens[nextPointer], EQUAL) {
 					fmt.Println("GREATER_EQUAL >= null")
 					nextPointer++
 					currentPointer++
@@ -119,12 +120,22 @@ func main() {
 			if isEnd {
 				fmt.Println("LESS < null")
 			} else {
-				if match(tokens[nextPointer]) {
+				if match(tokens[nextPointer], EQUAL) {
 					fmt.Println("LESS_EQUAL <= null")
 					nextPointer++
 					currentPointer++
 				} else {
 					fmt.Println("LESS < null")
+				}
+			}
+		case SLASH:
+			if isEnd {
+				fmt.Println("SLASH / null")
+			} else {
+				if match(tokens[nextPointer], SLASH) {
+					nextPointer = len(tokens) // Set the nextpointer so it is out of range for this line
+				} else {
+					fmt.Println("SLASH / null")
 				}
 			}
 		default:
@@ -141,8 +152,8 @@ func main() {
 	}
 }
 
-func match(token rune) bool {
-	if token == EQUAL {
+func match(token rune, toMatch rune) bool {
+	if token == toMatch {
 		return true
 	} else {
 		return false
