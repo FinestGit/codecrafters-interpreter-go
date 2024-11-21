@@ -28,9 +28,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(fileContents) > 0 {
-		panic("Scanner not implemented")
-	} else {
-		fmt.Println("EOF  null") // Placeholder, remove this line when implementing the scanner
+	for _, token := range fileContents {
+		scanToken(token)
+	}
+
+	fmt.Println("EOF  null")
+}
+
+func scanToken(token byte) {
+	stringifiedToken := string(token)
+	switch stringifiedToken {
+	case "(":
+		fmt.Println("LEFT_PAREN", stringifiedToken, "null")
+	case ")":
+		fmt.Println("RIGHT_PAREN", stringifiedToken, "null")
 	}
 }
