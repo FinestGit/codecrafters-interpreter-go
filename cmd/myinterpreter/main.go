@@ -91,6 +91,18 @@ func main() {
 					fmt.Println("EQUAL = null")
 				}
 			}
+		case BANG:
+			if isEnd {
+				fmt.Println("BANG ! null")
+			} else {
+				if match(tokens[nextPointer]) {
+					fmt.Println("BANG_EQUAL != null")
+					nextPointer++
+					currentPointer++
+				} else {
+					fmt.Println("BANG ! null")
+				}
+			}
 		default:
 			fmt.Fprintf(os.Stderr, "[line 1] Error: Unexpected character: %s\n", string(token))
 			errorsPresent = true
